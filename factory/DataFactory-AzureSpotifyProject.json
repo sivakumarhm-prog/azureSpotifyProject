@@ -1,0 +1,9 @@
+{
+	"name": "DataFactory-AzureSpotifyProject",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0906bd5a-cb88-48ad-84cb-f5dad4b05d36",
+		"tenantId": "a1299d20-d650-412e-80c4-b2a3bd80a486"
+	}
+}
