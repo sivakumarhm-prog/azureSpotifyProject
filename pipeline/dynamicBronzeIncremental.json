@@ -143,7 +143,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@not(equals(activity('sqlDB_ADLS_Copy').output.rowsRead, 0))",
+						"value": "@not(equals(activity('sqlDB_ADLS_Copy').output.dataRead, 0))",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
