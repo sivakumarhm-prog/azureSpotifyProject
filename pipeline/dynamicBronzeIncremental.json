@@ -105,7 +105,10 @@
 					},
 					"dataset": {
 						"referenceName": "Dataset_JSON",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"json_name": "cdc.json"
+						}
 					}
 				}
 			},
@@ -139,6 +142,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@not(equals(activity('sqlDB_ADLS_Copy').output.rowsRead, 0))",
+						"type": "Expression"
+					},
 					"ifFalseActivities": [
 						{
 							"name": "deleteEmptyFiles",
@@ -167,7 +174,7 @@
 										}
 									}
 								},
-								"enableLogging": true,
+								"enableLogging": false,
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
