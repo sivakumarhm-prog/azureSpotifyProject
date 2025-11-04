@@ -205,7 +205,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "SELECT max(@{pipeline().parameters.cdc_column}) FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
+											"value": "SELECT max(@{pipeline().parameters.cdc_column}) AS cdc FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
 											"type": "Expression"
 										}
 									}
