@@ -129,7 +129,14 @@
 			{
 				"name": "IfIncremental",
 				"type": "IfCondition",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "sqlDB_ADLS_Copy",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"ifFalseActivities": [
