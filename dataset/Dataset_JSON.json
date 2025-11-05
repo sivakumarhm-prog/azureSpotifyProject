@@ -8,6 +8,9 @@
 		"parameters": {
 			"json_name": {
 				"type": "string"
+			},
+			"folder": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -19,7 +22,10 @@
 					"value": "@dataset().json_name",
 					"type": "Expression"
 				},
-				"folderPath": "cdc",
+				"folderPath": {
+					"value": "@dataset().folder",
+					"type": "Expression"
+				},
 				"fileSystem": "bronze"
 			}
 		},

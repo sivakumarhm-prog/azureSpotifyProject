@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "[\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimUser\",\n    \"cdc_col\" : \"updated_at\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimTrack\",\n    \"cdc_col\" : \"updated_at\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimDate\",\n    \"cdc_col\" : \"date\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimArtist\",\n    \"cdc_col\" : \"updated_at\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"FactStream\",\n    \"cdc_col\" : \"stream_timestamp\",\n    \"from_date\" : \"\"\n  }\n]",
+						"value": "@pipeline().parameters.loop_input",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -43,7 +43,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "SELECT * FROM @{item().schema}.@{item().table} \nWHERE @{item().cdc_column} > '@{if(empty(item().from_date), activity('last_CDC_capture').output.firstRow.cdc, item().from_date)}'\n",
+										"value": "SELECT * FROM @{item().schema}.@{item().table}\nWHERE @{item().cdc_col} > '@{if(empty(item().from_date), activity('last_CDC_capture').output.firstRow.cdc, item().from_date)}'\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -119,7 +119,11 @@
 									"referenceName": "Dataset_JSON",
 									"type": "DatasetReference",
 									"parameters": {
-										"json_name": "cdc.json"
+										"json_name": "cdc.json",
+										"folder": {
+											"value": "@{item().table}_cdc",
+											"type": "Expression"
+										}
 									}
 								}
 							}
@@ -217,7 +221,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "SELECT max(@{item().cdc_column}) AS cdc FROM @{item().schema}.@{item().table}",
+														"value": "SELECT max(@{item().cdc_col}) AS cdc FROM @{item().schema}.@{item().table}",
 														"type": "Expression"
 													}
 												}
@@ -281,7 +285,11 @@
 												"referenceName": "Dataset_JSON",
 												"type": "DatasetReference",
 												"parameters": {
-													"json_name": "empty.json"
+													"json_name": "empty.json",
+													"folder": {
+														"value": "@{item().table}_cdc",
+														"type": "Expression"
+													}
 												}
 											}
 										],
@@ -290,7 +298,11 @@
 												"referenceName": "Dataset_JSON",
 												"type": "DatasetReference",
 												"parameters": {
-													"json_name": "cdc.json"
+													"json_name": "cdc.json",
+													"folder": {
+														"value": "@{item().table}_cdc",
+														"type": "Expression"
+													}
 												}
 											}
 										]
@@ -302,6 +314,43 @@
 				}
 			}
 		],
+		"parameters": {
+			"loop_input": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"schema": "dbo",
+						"table": "DimUser",
+						"cdc_col": "updated_at",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimTrack",
+						"cdc_col": "updated_at",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimDate",
+						"cdc_col": "date",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimArtist",
+						"cdc_col": "updated_at",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "FactStream",
+						"cdc_col": "stream_timestamp",
+						"from_date": ""
+					}
+				]
+			}
+		},
 		"variables": {
 			"current": {
 				"type": "String"
