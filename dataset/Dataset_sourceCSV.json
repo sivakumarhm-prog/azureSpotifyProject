@@ -1,0 +1,25 @@
+{
+	"name": "Dataset_sourceCSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLSG2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "emp_data_sample.csv",
+				"folderPath": "SourceCSVFiles",
+				"fileSystem": "source"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,9 @@
+{
+	"name": "AzureDataFactoryLearningSivakumar",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "dae6d3f5-c3cd-4eae-a80a-3c53748526ca",
+		"tenantId": "a1299d20-d650-412e-80c4-b2a3bd80a486"
+	}
+}

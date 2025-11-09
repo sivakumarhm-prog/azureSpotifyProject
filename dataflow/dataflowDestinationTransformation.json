@@ -1,0 +1,57 @@
+{
+	"name": "dataflowDestinationTransformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dataset_destinationGitHubFile",
+						"type": "DatasetReference"
+					},
+					"name": "destinationContainer"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "datasetDestinationContainerFolderLevel",
+						"type": "DatasetReference"
+					},
+					"name": "sinkmovementfiltereddata"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filter",
+					"description": "filtering_only_reportType=Marketing"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          report_id as string,",
+				"          report_name as string,",
+				"          report_type as string,",
+				"          created_by as string,",
+				"          created_date as date,",
+				"          total_records as integer,",
+				"          success_count as integer,",
+				"          failure_count as short,",
+				"          status as string,",
+				"          last_updated as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> destinationContainer",
+				"destinationContainer filter(report_type=='Marketing') ~> filter",
+				"filter sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkmovementfiltereddata"
+			]
+		}
+	}
+}
